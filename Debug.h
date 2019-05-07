@@ -15,30 +15,21 @@
 
  */
 
-#include <WiFi.h>
-#include <ezTime.h>
-#include "Debug.h"
+#pragma once;
+
 #include "Settings.h"
 
-void setup() {
-  enable_debug_log();
-  
-  // Connect to Wifi
-  WiFi.begin(settings.wifi_ssid, settings.wifi_password);
-
-  initializeEzTime();
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
-
-void initializeEzTime() {
+enable_debug_log() {
   if (settings.enable_debug_output) {
-    setDebug(INFO);
+    Serial.begin(115200);
+    while (!Serial) { 
+      ;
+    }
   }
-  
-  setServer(settings.ntp_server);
-  waitForSync();
+}
+
+void debug_log(char* value) {
+  if (settings.enable_debug_output) {
+    Serial.println(value);
+  }
 }
