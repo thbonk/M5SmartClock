@@ -23,22 +23,24 @@
 void setup() {
   enable_debug_log();
   
-  // Connect to Wifi
-  WiFi.begin(settings.wifi_ssid, settings.wifi_password);
-
+  connectWifi();
   initializeEzTime();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  events();
+}
 
+void connectWifi() {
+  WiFi.begin(readSettings().wifi_ssid, readSettings().wifi_password);
 }
 
 void initializeEzTime() {
-  if (settings.enable_debug_output) {
+  if (readSettings().enable_debug_output) {
     setDebug(INFO);
   }
   
-  setServer(settings.ntp_server);
+  setServer(readSettings().ntp_server);
   waitForSync();
 }

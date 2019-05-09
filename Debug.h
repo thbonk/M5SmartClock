@@ -19,7 +19,7 @@
 
 #include "Settings.h"
 
-enable_debug_log() {
+void enable_debug_log() {
   if (settings.enable_debug_output) {
     Serial.begin(115200);
     while (!Serial) { 
