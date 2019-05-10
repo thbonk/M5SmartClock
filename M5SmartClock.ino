@@ -15,32 +15,41 @@
 
  */
 
-#include <WiFi.h>
-#include <ezTime.h>
-#include "Debug.h"
-#include "Settings.h"
+#include <Preferences.h>
+#include <M5Stack.h>
+#include <M5ez.h>
 
 void setup() {
-  enable_debug_log();
-  
-  connectWifi();
-  initializeEzTime();
+  ez.begin();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (isFirstRun()) {
+    ez.settings.menu();
+    firstRunFinished();
+  } else {
+    // Show Clock
+  }
+  
   events();
 }
 
-void connectWifi() {
-  WiFi.begin(readSettings().wifi_ssid, readSettings().wifi_password);
+bool isFirstRun() {
+  Preferences prefs;
+  bool result;
+
+  prefs.begin("M5SmartClock", true);
+  result = prefs.getBool("firstRun", true);
+  prefs.end();
+
+  return result;
 }
 
-void initializeEzTime() {
-  if (readSettings().enable_debug_output) {
-    setDebug(INFO);
-  }
+void firstRunFinished() {
+  Preferences prefs;
   
-  setServer(readSettings().ntp_server);
-  waitForSync();
+  prefs.begin("M5SmartClock", false);
+  prefs.getBool("firstRun", false);
+  prefs.end();
 }
