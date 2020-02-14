@@ -12,15 +12,19 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
  */
 
 #include <Preferences.h>
 #include <M5Stack.h>
+#include <ezTime.h>
 #include <M5ez.h>
 
 void setup() {
+  #include <themes/default.h>
+  #include <themes/dark.h>
+  
   ez.begin();
+  M5.Power.setPowerBoostKeepOn(true);
 }
 
 void loop() {
@@ -30,9 +34,10 @@ void loop() {
     firstRunFinished();
   } else {
     // Show Clock
+    showClockCanvas();
   }
   
-  events();
+  //events();
 }
 
 bool isFirstRun() {
@@ -50,6 +55,6 @@ void firstRunFinished() {
   Preferences prefs;
   
   prefs.begin("M5SmartClock", false);
-  prefs.getBool("firstRun", false);
+  prefs.putBool("firstRun", false);
   prefs.end();
 }
