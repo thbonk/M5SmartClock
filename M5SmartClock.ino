@@ -1,5 +1,5 @@
 /*
-   Copyright 2019 Thomas Bonk
+   Copyright 2020 Thomas Bonk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #include <M5Stack.h>
 #include <ezTime.h>
 #include <M5ez.h>
+#include "Constants.h"
 
 void setup() {
   #include <themes/default.h>
@@ -28,24 +29,24 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  if (isFirstRun()) {
+  bool firstRun = isFirstRun();
+  
+  if (firstRun) {
     ez.settings.menu();
     firstRunFinished();
+    firstRun = false;
   } else {
     // Show Clock
-    showClockCanvas();
+    //showClockCanvas();
   }
-  
-  //events();
 }
 
 bool isFirstRun() {
   Preferences prefs;
   bool result;
 
-  prefs.begin("M5SmartClock", true);
-  result = prefs.getBool("firstRun", true);
+  prefs.begin(APPLICATION_NAME, true);
+  result = prefs.getBool(PREF_IS_FIRST_RUN, true);
   prefs.end();
 
   return result;
@@ -54,7 +55,7 @@ bool isFirstRun() {
 void firstRunFinished() {
   Preferences prefs;
   
-  prefs.begin("M5SmartClock", false);
-  prefs.putBool("firstRun", false);
+  prefs.begin(APPLICATION_NAME, false);
+  prefs.putBool(PREF_IS_FIRST_RUN, false);
   prefs.end();
 }

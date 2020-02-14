@@ -1,5 +1,5 @@
 /*
-   Copyright 2019 Thomas Bonk
+   Copyright 2020 Thomas Bonk
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,21 +14,17 @@
    limitations under the License.
  */
 
-#include <M5stack.h>
-#include <M5ez.h>
+ #ifndef __CONSTANTS_H__
+ #define __CONSTANTS_H__
 
-uint16_t turnOffBacklight() {
-  M5.lcd.setBrightness(1);
-  //ez.removeEvent(turnOffBacklight);
+// General Constants
 
-  return 1;
-}
+ #define APPLICATION_NAME     "M5SmartClock"
 
-void turnOnBacklight(bool autoTurnOff = true) {
-  M5.lcd.setBrightness(100);
-  /*ez.removeEvent(turnOffBacklight);
 
-  if (autoTurnOff) {
-    ez.addEvent(turnOffBacklight, 8000); 
-  }*/
-}
+ // Preferences Names
+
+ #define PREF_IS_FIRST_RUN    "firstRun"
+
+ #endif
+ 
